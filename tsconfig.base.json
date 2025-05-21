@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@todoist/data": ["libs/todoist-app/data/src/index.ts"],
+      "@todoist/ui": ["libs/todoist-app/ui/src/index.ts"]
+    },
+    "strictPropertyInitialization": false
   },
   "exclude": ["node_modules", "tmp"]
 }
