@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { jwtToken } from '../helpers/token';
 
 export interface User {
   email: string;
@@ -11,23 +12,22 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  private isAuthenticatedSignal = signal(false);
+  
+  private readonly mockJWTToken = 'mock-token-value';
 
   constructor(private router: Router) {
-    // Check for token on initialization
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(jwtToken);
     if (token) {
-      this.isAuthenticatedSubject.next(true);
+      this.isAuthenticatedSignal.set(true);
     }
   }
 
   login(email: string, password: string): Observable<boolean> {
-    // Here should be real authentication logic via API
-    // For example, we use mock authentication
     if (email && password) {
-      localStorage.setItem('token', 'mock-token');
-      this.isAuthenticatedSubject.next(true);
+      localStorage.setItem(jwtToken, this.mockJWTToken);
+      this.isAuthenticatedSignal.set(true);
+
       return new Observable(observer => {
         observer.next(true);
         observer.complete();
@@ -40,8 +40,6 @@ export class AuthService {
   }
 
   register(email: string, password: string): Observable<boolean> {
-    // Here should be real registration logic via API
-    // For example, we use mock registration
     if (email && password) {
       return new Observable(observer => {
         observer.next(true);
@@ -55,12 +53,12 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.isAuthenticatedSubject.next(false);
+    localStorage.removeItem(jwtToken);
+    this.isAuthenticatedSignal.set(false);
     this.router.navigate(['/login']);
   }
-
+  
   isAuthenticated(): boolean {
-    return this.isAuthenticatedSubject.value;
+    return this.isAuthenticatedSignal();
   }
 }
