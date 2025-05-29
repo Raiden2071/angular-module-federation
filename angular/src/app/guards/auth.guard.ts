@@ -1,5 +1,5 @@
 import { Router, type CanActivateChildFn } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { inject } from '@angular/core';
 
 export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
