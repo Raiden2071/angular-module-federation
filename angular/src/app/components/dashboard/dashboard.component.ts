@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
-  username: string = 'User';
+  protected username = signal('User');
 
-  constructor(
-    private authService: AuthService,
-  ) {}
+  private readonly httpClient = inject(HttpClient);
+  private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
-
+    this.username.set('Viacheslav');
+    this.httpClient.get('https://jsonplaceholder.typicode.com/todos/1').subscribe((value) => {
+      this.username.set('Slava');
+    });
   }
 
   logout(): void {
