@@ -1,0 +1,38 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Dashboard</h1>
+    <div class="user-info">
+      <span>Welcome, {{ username }}!</span>
+      <button (click)="logout()" class="logout-btn">Sign Out</button>
+    </div>
+  </header>
+
+  <main class="dashboard-content">
+    <div class="dashboard-card">
+      <h2>Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3>Active Projects</h3>
+          <p>5</p>
+        </div>
+        <div class="stat-item">
+          <h3>Completed Tasks</h3>
+          <p>12</p>
+        </div>
+        <div class="stat-item">
+          <h3>New Messages</h3>
+          <p>3</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <h2>Recent Activity</h2>
+      <ul class="activity-list">
+        <li>Updated project "Web Application"</li>
+        <li>Added new task</li>
+        <li>Received new message</li>
+      </ul>
+    </div>
+  </main>
+</div>
