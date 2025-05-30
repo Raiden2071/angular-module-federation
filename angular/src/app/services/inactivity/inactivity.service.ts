@@ -24,23 +24,29 @@ export class InactivityService {
   public initListenerInactivity(): void {
     this.ngZone.runOutsideAngular(() => {
 
-      this.interval = setInterval(() => {
+      this.startLogoutTimer();
+      this.listenersForActivityChecking();
+    });
+  }
 
-        if (new Date() > this.logoutTime() ) {
-          this.authService.logout();
-        }
-      }, 1500);
-  
-      concat(
-        fromEvent(document, 'mousemove'),
-        fromEvent(document, 'click'),
-        fromEvent(document, 'scroll')
-      ).pipe(
-        debounceTime(200),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(() => {
-        this.updateLastUserActivity()
-      });
+  private startLogoutTimer(): void {
+    this.interval = setInterval(() => {
+      if (new Date() > this.logoutTime() ) {
+        this.authService.logout();
+      }
+    }, 1500);
+  }
+
+  private listenersForActivityChecking(): void {
+    concat(
+      fromEvent(document, 'mousemove'),
+      fromEvent(document, 'click'),
+      fromEvent(document, 'scroll')
+    ).pipe(
+      debounceTime(200),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      this.updateLastUserActivity()
     });
   }
   
