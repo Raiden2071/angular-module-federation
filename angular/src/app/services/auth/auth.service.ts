@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { jwtToken } from '../helpers/token';
+import { jwtToken } from '../../helpers/token';
 
 export interface User {
   email: string;
