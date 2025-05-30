@@ -5,7 +5,7 @@ import { debounceTime, fromEvent, merge } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 
 export const OneMinute = 60 * 1000;
-export const TimeWhenWillBeLoggedOut = 2 * OneMinute;
+export const TimeWhenWillBeLoggedOut = 0.05 * OneMinute;
 
 @Component({
   selector: 'app-layout',
@@ -19,8 +19,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   private readonly ngZone = inject(NgZone);
 
   private interval: ReturnType<typeof setInterval> | null = null;
-  private lastActivity = signal(new Date());
-  private endActivity = computed(() => new Date(this.lastActivity().getTime() + TimeWhenWillBeLoggedOut));
+  private lastUserActionTime = signal(new Date());
+  private logoutTime = computed(() => new Date(this.lastUserActionTime().getTime() + TimeWhenWillBeLoggedOut));
 
   @HostBinding('style.backgroundColor') color = 'red';
 
@@ -38,9 +38,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private initListenerInactivity(): void {
     this.ngZone.runOutsideAngular(() => {
+
       this.interval = setInterval(() => {
-        console.log(this.endActivity().getMinutes(), this.lastActivity().getMinutes(), this.endActivity() < this.lastActivity());
-        if (this.lastActivity() > this.endActivity()) {
+        console.log(`
+          lastUserActionTime: ${this.lastUserActionTime().toISOString()}
+          logoutTime: ${this.logoutTime().toISOString()}
+          isLoggedOut: ${new Date() > this.logoutTime()}
+        `);
+
+        if (new Date() > this.logoutTime() ) {
           this.authService.logout();
         }
       }, 1500);
@@ -50,17 +56,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
         fromEvent(document, 'click'),
         fromEvent(document, 'scroll')
       ).pipe(
-        debounceTime(2000),
+        debounceTime(500),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe((event) => {
         console.log(event);
-        this.resetTimer()
+        this.updateLastUserActivity()
       });
     });
   }
 
-  private resetTimer(): void {
-    this.lastActivity.set(new Date());
+  private updateLastUserActivity(): void {
+    this.lastUserActionTime.set(new Date());
+    console.log('logoutTime', this.logoutTime());
   }
 
   ngOnDestroy(): void {
