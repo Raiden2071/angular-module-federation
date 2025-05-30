@@ -1,9 +1,11 @@
 import { computed, inject, NgZone, Injectable, signal, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../auth/auth.service';
-import { TimeWhenWillBeLoggedOut } from '../../components/layout/layout.component';
 import { debounceTime } from 'rxjs/operators';
 import { concat, fromEvent } from 'rxjs';
+
+const OneMinute = 60 * 1000;
+const TimeWhenWillBeLoggedOut = 0.1 * OneMinute;
 
 @Injectable()
 export class InactivityService {
@@ -46,6 +48,7 @@ export class InactivityService {
       debounceTime(200),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => {
+      console.log('activity');
       this.updateLastUserActivity()
     });
   }

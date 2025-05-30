@@ -2,9 +2,6 @@ import { ChangeDetectionStrategy, Component, HostBinding, HostListener, inject, 
 import { InactivityService } from '../../services/inactivity/inactivity.service';
 import { RouterOutlet } from '@angular/router';
 
-export const OneMinute = 60 * 1000;
-export const TimeWhenWillBeLoggedOut = 0.05 * OneMinute;
-
 @Component({
   selector: 'app-layout',
   imports: [RouterOutlet],
