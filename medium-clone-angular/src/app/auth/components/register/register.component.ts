@@ -5,6 +5,7 @@ import { register } from '../../store/actions';
 import { RegisterRequestInterface } from '../../types/registerRequest.interface';
 import { selectIsSubmitting } from '../../store/reducers';
 import { AuthStateInterface } from '../../types/authState.interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'mc-register',
@@ -15,6 +16,7 @@ import { AuthStateInterface } from '../../types/authState.interface';
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private store = inject(Store<{ auth: AuthStateInterface }>);
+  private authService = inject(AuthService);
 
   isSubmitting = this.store.selectSignal(selectIsSubmitting);
 
@@ -29,5 +31,6 @@ export class RegisterComponent {
       user: this.form.getRawValue(),
     }
     this.store.dispatch(register({ request }));
+    this.authService.register(request).subscribe(console.log);
   }
 }
