@@ -1,6 +1,3 @@
-{{isSubmitting()}}
-====
-
 <div class="auth-page">
   <div class="container page">
     <div class="row">
@@ -9,7 +6,9 @@
         <p class="text-xs-center">
           <a routerLink="/login">Have an account?</a>
         </p>
-        BACKEND ERRORS HERE
+        @if (backendErrors()) {
+          <mc-backend-error-messages [backendErrors]="backendErrors()!" />
+        }
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <fieldset class="form-group">
             <input
