@@ -2,14 +2,16 @@ import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angul
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { authFeatureKey, authReducer } from './auth/store/reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideStore(),
+    provideState(authFeatureKey, authReducer),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
