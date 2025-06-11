@@ -9,11 +9,12 @@ import { authActions } from '../../store/actions';
 import {
   BackendErrorMessagesComponent
 } from '../../../shared/components/backend-error-messages/backend-error-messages.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'mc-register',
   templateUrl: './register.component.html',
-  imports: [ReactiveFormsModule, BackendErrorMessagesComponent],
+  imports: [ReactiveFormsModule, BackendErrorMessagesComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
