@@ -9,6 +9,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import * as authEffects from './auth/store/effects';
 import { authInterceptor } from './shared/services/auth-interceptor';
+import { provideRouterStore } from '@ngrx/router-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
         autoPause: true,
         trace: false, traceLimit: 75, connectInZone: true
     }),
-    provideEffects()
+    provideEffects(),
+    provideRouterStore()
 ],
 };
