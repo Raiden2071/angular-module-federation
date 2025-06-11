@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { combineLatest, of } from 'rxjs'
+import { feedActions } from './store/actions';
 
 @Component({
   selector: 'mc-feed',
@@ -20,6 +21,6 @@ export class FeedComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    // this.store.dispatch(feedActions.getFeed({url: this.apiUrl}))
+    this.store.dispatch(feedActions.getFeed({ url: this.apiUrl() }));
   }
 }
