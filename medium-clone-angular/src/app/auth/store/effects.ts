@@ -65,3 +65,27 @@ export const redirectAfterLoginSuccess = createEffect((
     tap(() => router.navigateByUrl('/')),
   )
 }, {functional: true, dispatch: false})
+
+
+export const getCurrentUserEffect = createEffect((
+  actions$ = inject(Actions),
+  authService = inject(AuthService),
+  persistanceService = inject(PersistanceService),
+) => {
+  return actions$.pipe(
+    ofType(authActions.getCurrentUser),
+    switchMap(() => {
+      return authService.getCurrentUser().pipe(
+        map((currentUser) => {
+          // const getCurrentUserFromLocalStorage = persistanceService.get('accessToken');
+          // if (getCurrentUserFromLocalStorage) {
+          //   return getCurrentUserFromLocalStorage;
+          // }
+
+          return authActions.getCurrentUserSuccess({currentUser})
+        }),
+        catchError((errorResponse: HttpErrorResponse) => of(authActions.getCurrentUserFailure()))
+      )
+    })
+  )
+}, {functional: true});

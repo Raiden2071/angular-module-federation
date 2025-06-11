@@ -13,17 +13,28 @@ import { LoginRequestInterface } from '../types/loginRequest.interface';
 export class AuthService {
  private http = inject(HttpClient);
 
+ getUser(response: AuthResponseInterface): CurrentUserInterface {
+   return response.user;
+ }
+
+ getCurrentUser() {
+   const url = `${environment.apiUrl}/user`;
+
+   return this.http.get<AuthResponseInterface>(url)
+     .pipe(map(this.getUser));
+ }
+
  register(data: RegisterRequestInterface): Observable<CurrentUserInterface> {
    const url = `${environment.apiUrl}/users`;
 
    return this.http.post<AuthResponseInterface>(url, data)
-     .pipe(map(response => response.user));
+     .pipe(map(this.getUser));
  }
 
  login(data: LoginRequestInterface): Observable<CurrentUserInterface> {
    const url = `${environment.apiUrl}/users/login`;
 
    return this.http.post<AuthResponseInterface>(url, data)
-    .pipe(map(response => response.user));
+    .pipe(map(this.getUser));
  }
 }

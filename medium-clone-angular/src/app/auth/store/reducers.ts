@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { AuthStateInterface } from '../types/authState.interface';
 import { authActions } from './actions';
-import falsy = jasmine.falsy;
 
 const initialState: AuthStateInterface = {
   isSubmitting: false,
@@ -41,6 +40,22 @@ const authFeature = createFeature({
       ...state,
       isSubmitting: false,
       validationErrors: action.errors
+    })),
+
+
+    on(authActions.getCurrentUser, (state, action) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(authActions.getCurrentUserSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentUser: action.currentUser,
+    })),
+    on(authActions.getCurrentUserFailure, (state) => ({
+      ...state,
+      isLoading: false,
+      currentUser: null,
     })),
   ),
 });
