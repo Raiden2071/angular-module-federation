@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { Component, inject, input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { combineLatest } from 'rxjs'
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   selector: 'mc-feed',
   templateUrl: './feed.component.html',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NgOptimizedImage],
 })
 export class FeedComponent implements OnInit {
   readonly apiUrl = input<string>('');

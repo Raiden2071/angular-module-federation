@@ -6,7 +6,7 @@
     <div class="article-preview" *ngFor="let article of data.feed?.articles">
       <div class="article-meta">
         <a [routerLink]="['/profiles', article.author.username]">
-          <img [src]="article.author.image" />
+          <img ngSrc="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740" alt="article.author.image" width="32" height="32" />
         </a>
         <div class="info">
           <a [routerLink]="['/profiles', article.author.username]">
