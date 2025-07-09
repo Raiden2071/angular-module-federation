@@ -25,6 +25,7 @@
     "@capacitor/camera": "^7.0.1",
     "@capacitor/core": "7.4.1",
     "@capacitor/filesystem": "^7.1.2",
+    "@capacitor/google-maps": "^7.0.2",
     "@capacitor/haptics": "7.0.1",
     "@capacitor/keyboard": "7.0.1",
     "@capacitor/preferences": "^7.0.1",
